@@ -7,7 +7,7 @@ typedef struct Comment{
     char* username;
     char* content;
     Reply* replies;
-    Comment* next;
+    struct Comment* next;
 }Comment;
 
 Comment* createComment(char* username,char* content);

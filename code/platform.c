@@ -24,7 +24,6 @@ bool addPost(Platform* platform, char* username, char* caption){
         platform->head->prev=thepost;
         platform->head=thepost;
     }
-    platform->last_viewed=thepost;
     platform->post_count++;
     return true;
 }
@@ -46,7 +45,7 @@ bool deletePost(Platform* platform, int n){
         platform->last_viewed=platform->head;
     }
     freePost(toDelete);
-    platform->post_count==0;
+    platform->post_count--;
     return true;
 }
 Post* viewPost(Platform* platform, int n){
@@ -114,7 +113,7 @@ bool addReply(Platform* platform, char* username, char* content, int n){
     Reply* thereply=createReply(username,content);
     if(!thereply) return false;
     
-    thereply->next=thecomment->next;
+    thereply->next=thecomment->replies;
     thecomment->replies=thereply;
     return true;
 }
@@ -160,5 +159,13 @@ void freePost(Post* toDelete){
         Comment* next=comment->next;
         freeComment(comment);
         comment=next;
+    }
+}
+void freePlatform(Platform* platform){
+    Post* post=platform->head;
+    while(post){
+        Post* next=post->next;
+        freePost(post);
+        post=next;
     }
 }

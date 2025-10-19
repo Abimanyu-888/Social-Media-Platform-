@@ -4,7 +4,7 @@
 typedef struct Reply{
     char* username;
     char* content;
-    Reply* next;
+    struct Reply* next;
 }Reply;
 Reply* createReply(char* username,char* content);
 #endif

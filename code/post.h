@@ -5,8 +5,8 @@ typedef struct Post{
     char* username;
     char* caption;
     Comment* comments;
-    Post* next;
-    Post* prev;
+    struct Post* next;
+    struct Post* prev;
 }Post;
 Post* createPost(char* username, char* caption);
 #endif
