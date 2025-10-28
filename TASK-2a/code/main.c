@@ -16,11 +16,30 @@ void print_comments(Comment* comments){
     printf("%s %s\n", comments->username, comments->content);
     print_replies(comments->replies);
 }   
+void print_command_help() {
+    printf("--- Social Media Platform Command List ---\n");
+    printf("Note: Arguments like <username> or <caption_no_spaces> must not contain spaces.\n\n");
+    printf("  create_platform\n");
+    printf("  add_post <username> <caption_no_spaces>\n");
+    printf("  delete_post <n_recent_index>\n");
+    printf("  view_post <n_recent_index>\n");
+    printf("  current_post\n");
+    printf("  next_post\n");
+    printf("  previous_post\n");
+    printf("  add_comment <username> <content_no_spaces>\n");
+    printf("  delete_comment <n_recent_index>\n");
+    printf("  view_comments\n");
+    printf("  add_reply <username> <content_no_spaces> <n_recent_comment_index>\n");
+    printf("  delete_reply <n_recent_comment_index> <n_recent_reply_index>\n");
+    printf("  exit\n");
+    printf("------------------------------------------\n");
+}
 
 
 int main() {
     char command[500];
     char arg1[500], arg2[500], arg3[500];
+    print_command_help();
 
     while (fgets(command, sizeof(command), stdin)) {
         // Remove trailing newline
@@ -90,7 +109,7 @@ int main() {
                 printf("Comment does not exist.\n");
             }
         } 
-        else if (strcmp(command, "view_comments") == 0) {
+        else if (strcmp(command, "view_comments") == 0 || strcmp(command, "view_all_comments") == 0) {
             Comment* comments = viewComments(socialMediaPlatform);
             if (comments) {
                 print_comments(comments);
