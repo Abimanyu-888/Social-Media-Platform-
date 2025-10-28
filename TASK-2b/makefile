@@ -1,58 +1,50 @@
-# Compiler
-
+# Compiler and flags
 CC = gcc
-
-# Compiler flags
-
-CFLAGS = -Wall -Wextra -std=c99
+CFLAGS = -Wall -Wextra -std=c99 -I.
+LDFLAGS = -lm
 
 # Directories
-
-SRC_DIR = code
 BIN_DIR = bin
 
-# Executable names
-
-TASK1 = $(BIN_DIR)/subTask1
-TASK2 = $(BIN_DIR)/subTask2
-
 # Source files
+SRCS1 = code/subTask1.c
+SRCS2 = code/subTask2.c
 
-SRC1 = $(SRC_DIR)/subTask1.c
-SRC2 = $(SRC_DIR)/subTask2.c
+# Executable files
+EXEC1 = $(BIN_DIR)/subTask1
+EXEC2 = $(BIN_DIR)/subTask2
 
-# Default target
+# Default target: Build all programs
+all: $(EXEC1) $(EXEC2)
 
-all: $(TASK1) $(TASK2)
-
-# Ensure bin directory exists
-
+# Target to create the bin directory
 $(BIN_DIR):
-mkdir -p $(BIN_DIR)
+	@mkdir -p $(BIN_DIR)
 
-# Build Task 1
+# Target to build subTask1
+$(EXEC1): $(SRCS1) | $(BIN_DIR)
+	@echo "Building $@"
+	@$(CC) $(CFLAGS) -o $@ $(SRCS1) $(LDFLAGS)
 
-$(TASK1): $(SRC1) | $(BIN_DIR)
-$(CC) $(CFLAGS) $(SRC1) -o $(TASK1)
+# Target to build subTask2
+$(EXEC2): $(SRCS2) | $(BIN_DIR)
+	@echo "Building $@"
+	@$(CC) $(CFLAGS) -o $@ $(SRCS2) $(LDFLAGS)
 
-# Build Task 2
+# Target to run subTask1
+run1: $(EXEC1)
+	@echo "Running subTask1..."
+	@./$(EXEC1)
 
-$(TASK2): $(SRC2) | $(BIN_DIR)
-$(CC) $(CFLAGS) $(SRC2) -o $(TASK2)
+# Target to run subTask2
+run2: $(EXEC2)
+	@echo "Running subTask2..."
+	@./$(EXEC2)
 
-# Run Task 1
-
-run1: $(TASK1)
-./$(TASK1)
-
-# Run Task 2
-
-run2: $(TASK2)
-./$(TASK2)
-
-# Clean build files
-
+# Target to clean executables
 clean:
-rm -rf $(BIN_DIR)
+	@echo "Cleaning executables..."
+	@rm -rf $(BIN_DIR)
 
-.PHONY: all clean run1 run2
+# Phony targets
+.PHONY: all run1 run2 clean
